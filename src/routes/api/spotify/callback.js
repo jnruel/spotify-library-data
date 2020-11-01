@@ -5,8 +5,6 @@ const qs = require('qs');
 export async function get(req, res, next) {
   let cookieHelper = new CookieHelper(req, res);
 
-  console.log('in callback');
-
   // your application requests refresh and access tokens
   // after checking the state parameter
   let authCode = req.query.code || null;
@@ -45,9 +43,9 @@ export async function get(req, res, next) {
 
   let spotifyResponse = await axios.post('https://accounts.spotify.com/api/token', qs.stringify(postData), axiosOptions);
   let data = spotifyResponse.data;
-  const { access_token: accessToken, refresh_token: refreshToken } = data;
+  const { access_token: accessToken, refresh_token: refreshToken, expires_in: expiresIn } = data;
 
-  cookieHelper.setAccessToken(accessToken);
+  cookieHelper.setAccessToken(accessToken, expiresIn);
   cookieHelper.setRefreshToken(refreshToken);
 
   let protocol = 'http://';

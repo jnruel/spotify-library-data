@@ -40,9 +40,14 @@ export class CookieHelper {
     });
   }
 
-  setAccessToken(accessToken) {
+  setAccessToken(accessToken, expiresIn) {
+    let date = new Date();
+    date.setSeconds(date.getSeconds() + expiresIn);
+
     this.cookies.set(this.cookieKeys.accessToken, accessToken, {
-      sameSite: 'strict', httpOnly: true
+      sameSite: 'strict',
+      httpOnly: true,
+      expires: date
     });
   }
 
