@@ -7,12 +7,18 @@ export async function get(req, res) {
 
   res.setHeader('Content-Type', 'application/json');
 
+  let axiosConfig = {
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    },
+    params: {
+      limit: 50,
+    }
+  }
+
   try {
-    let spotifyResponse = await axios.get('https://api.spotify.com/v1/me/albums', {
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      }
-    });
+    let spotifyResponse = await axios.get('https://api.spotify.com/v1/me/albums', axiosConfig);
+
     // res.status(200).send(spotifyResponse.data);
     res.end(JSON.stringify(spotifyResponse.data));
   }

@@ -23,5 +23,3 @@
 </svelte:head>
 
 <h1>Spotify Library Data</h1>
-
-<a href="/api/spotify/auth">Authorize Spotify</a>

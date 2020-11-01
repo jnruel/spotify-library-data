@@ -17,7 +17,6 @@ const isAuthenticated = async (req, res) => {
 
   // If access token cookie is set, you're likely authenticated.
   if (accessToken) {
-    console.log('has access token');
     return true;
   }
   // Reauthenticate if no access token, but refresh token exists.

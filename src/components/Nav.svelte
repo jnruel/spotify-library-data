@@ -1,5 +1,8 @@
 <script>
   export let segment;
+  import { stores } from '@sapper/app';
+	const { session } = stores();
+
 </script>
 
 <style>
@@ -52,5 +55,6 @@
   <ul>
     <li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
     <li><a aria-current="{segment === 'albums' ? 'page' : undefined}" href="albums">albums</a></li>
+    {#if $session.authenticated === false} <li><a href="/api/spotify/auth">Authorize Spotify</a></li>{/if}
   </ul>
 </nav>
