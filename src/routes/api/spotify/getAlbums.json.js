@@ -12,7 +12,7 @@ export async function get(req, res) {
       'Authorization': 'Bearer ' + accessToken
     },
     params: {
-      limit: 50,
+      limit: 1,
     }
   }
 

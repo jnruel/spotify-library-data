@@ -11,13 +11,13 @@ import { CLIENT_ID, CLIENT_SECRET, CookieHelper  } from './util/auth';
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-const isAuthenticated = async (req, res) => {
+const getAccessToken = async (req, res) => {
   let accessToken = req.cookies['spotify-access-token'];
   let refreshToken = req.cookies['spotify-refresh-token'];
 
   // If access token cookie is set, you're likely authenticated.
   if (accessToken) {
-    return true;
+    return accessToken;
   }
   // Reauthenticate if no access token, but refresh token exists.
   else if (!accessToken && refreshToken) {
@@ -41,11 +41,11 @@ const isAuthenticated = async (req, res) => {
     const { access_token: accessToken, expires_in: expiresIn } = data;
     cookieHelper.setAccessToken(accessToken, expiresIn);
 
-    return true;
+    return accessToken;
   }
 
   // Else, you're not authenticated.
-  return false;
+  return null;
 }
 
 const app = polka() // You can also use Express
@@ -56,7 +56,7 @@ const app = polka() // You can also use Express
     sapper.middleware({
       session: async (req, res) => {
         // Set status of authentication in session:
-        return { authenticated: await isAuthenticated(req, res) }
+        return { access_token: await getAccessToken(req, res) }
       }
     })
   )
