@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser'
 const axios = require('axios');
 const qs = require('qs');
 import { CLIENT_ID, CLIENT_SECRET, CookieHelper  } from './util/auth';
-// import jwt from 'jsonwebtoken';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
@@ -48,7 +47,7 @@ const getAccessToken = async (req, res) => {
   return null;
 }
 
-const app = polka() // You can also use Express
+const app = polka()
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),

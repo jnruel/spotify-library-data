@@ -32,6 +32,7 @@
   import { saveJson } from '../util/misc-helpers';
   import { getAllAlbums } from '../util/spotify-fetch-helpers';
   import { albumStore } from '../stores';
+  import AlbumTable from '../components/AlbumTable.svelte';
 
   export let accessToken, numAlbums;
   let albumsData;
@@ -61,4 +62,6 @@
 {#if downloadBlobUrl}
   <a download="saved-albums.json" href={downloadBlobUrl}>Download albums JSON</a>
 {/if}
+
+<AlbumTable />
 

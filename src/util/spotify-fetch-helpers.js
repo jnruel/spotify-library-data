@@ -23,7 +23,8 @@ export const getAllAlbums = async (accessToken) => {
 
         for (const albumItem of responseJson.items) {
           let prunedAlbum = await pruneObject(albumItem.album, albumPropsBlacklist);
-          albums.push(prunedAlbum);
+          albumItem.album = prunedAlbum;
+          albums.push(albumItem);
         }
       }
       else {
