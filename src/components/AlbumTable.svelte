@@ -8,7 +8,8 @@
     <tr>
       <th>Name</th>
       <th>Artist</th>
-      <th>Date Saved</th>
+      <th>Released</th>
+      <th>Saved</th>
     </tr>
     {#each $albumStore as albumData}
       <AlbumRow albumData={albumData} />
