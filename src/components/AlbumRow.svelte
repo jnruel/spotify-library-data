@@ -18,6 +18,13 @@
   });
 </script>
 
+<style lang="postcss">
+  td {
+    @apply border border-green-700;
+    padding: 6px 10px;
+  }
+</style>
+
 <tr>
   <td>{albumData.album.name}</td>
   <td>{artists}</td>

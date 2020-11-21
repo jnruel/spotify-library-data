@@ -7,6 +7,11 @@ import { terser } from 'rollup-plugin-terser';
 import config, { server } from 'sapper/config/rollup.js';
 import pkg from './package.json';
 
+const { preprocess } = require('./svelte.config');
+
+// import sveltePreprocess from 'svelte-preprocess';
+// import tailwindcss from "tailwindcss";
+
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
@@ -18,6 +23,8 @@ const onwarn = (warning, onwarn) =>
 
 let serverOutput = config.server.output();
 serverOutput.exports = 'default';
+
+
 
 export default {
   client: {
@@ -31,7 +38,8 @@ export default {
       svelte({
         dev,
         hydratable: true,
-        emitCss: true
+        emitCss: true,
+        preprocess
       }),
       resolve({
         browser: true,
@@ -76,7 +84,8 @@ export default {
       svelte({
         generate: 'ssr',
         hydratable: true,
-        dev
+        dev,
+        preprocess
       }),
       resolve({
         dedupe: ['svelte']
