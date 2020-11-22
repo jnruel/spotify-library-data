@@ -34,12 +34,11 @@
   import { userStore, albumStore } from '../stores';
   import AlbumTable from '../components/AlbumTable.svelte';
   import { format } from 'date-fns';
-  import {onMount} from 'svelte';
 
   export let accessToken, numAlbums;
   let albumsData;
   let disabled = false;
-  let downloadBlobUrl;
+  let blobUrl;
   let last_updated;
 
   if (process.browser) {
@@ -53,11 +52,6 @@
     }
   });
 
-  // onMount(async () => {
-  //   last_updated = format(new Date($userStore.albums.last_updated), 'Pp');
-  // });
-
-
   const handleClick = async () => {
     disabled = true;
     albumsData = await getAllAlbums(accessToken);
@@ -69,10 +63,29 @@
       return newUserStore;
     });
 
-    // downloadBlobUrl = await saveJson(albumsData);
     disabled = false;
   };
+
+  const prepareBlobUrl = async () => {
+    blobUrl = await saveJson($albumStore);
+  };
 </script>
+
+<style lang="postcss">
+  button {
+    @apply bg-green-800 text-green-300 border border-green-800;
+    padding: 10px;
+  }
+
+  button:disabled, button:disabled:hover {
+    @apply bg-gray-400 text-gray-700;
+    cursor: not-allowed;
+  }
+
+  button:hover {
+    @apply bg-green-300 text-green-800;
+  }
+</style>
 
 <svelte:head>
   <title>Albums</title>
@@ -82,12 +95,17 @@
 
 {#if last_updated} <div>Last Updated: {last_updated}</div> {/if}
 
-<button class="bg-green-800 p-2 text-green-300" on:click={handleClick} {disabled}>
+<button on:click={handleClick} {disabled}>
   Sync saved albums {#if numAlbums !== null} ({numAlbums}) {/if}
 </button>
-<!-- {#if downloadBlobUrl}
-  <a download="saved-albums.json" href={downloadBlobUrl}>Download albums JSON</a>
-{/if} -->
+
+{#if $albumStore.length > 0}
+  <button on:click={prepareBlobUrl}>Prepare for export</button>
+  {#if blobUrl}
+    <a download="saved-albums.json" href={blobUrl}>Export albums as JSON</a>
+  {/if}
+{/if}
+
 
 <AlbumTable />
 

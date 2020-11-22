@@ -14,7 +14,7 @@ export const getAllAlbums = async (accessToken) => {
 
       // Uncomment below for debugging purposes
       // to not loop through all pages each time.
-      next = false;
+      // next = false;
 
       // Request the next page of data and push to array if it exists.
       if (responseJson.hasOwnProperty('next') && responseJson.next !== null) {
