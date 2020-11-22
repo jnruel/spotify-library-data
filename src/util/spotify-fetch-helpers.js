@@ -14,7 +14,7 @@ export const getAllAlbums = async (accessToken) => {
 
       // Uncomment below for debugging purposes
       // to not loop through all pages each time.
-      // next = false;
+      next = false;
 
       // Request the next page of data and push to array if it exists.
       if (responseJson.hasOwnProperty('next') && responseJson.next !== null) {
@@ -23,8 +23,8 @@ export const getAllAlbums = async (accessToken) => {
 
         for (const albumItem of responseJson.items) {
           let prunedAlbum = await pruneObject(albumItem.album, albumPropsBlacklist);
-          albumItem.album = prunedAlbum;
-          albums.push(albumItem);
+          prunedAlbum.added_at = albumItem.added_at;
+          albums.push(prunedAlbum);
         }
       }
       else {

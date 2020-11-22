@@ -40,16 +40,22 @@
   let albumsData;
   let disabled = false;
   let downloadBlobUrl;
-  let last_updated = '?';
+  let last_updated;
 
   if (process.browser) {
     albumStore.useLocalStorage();
     userStore.useLocalStorage();
   }
 
-  onMount(async () => {
-    last_updated = format(new Date($userStore.albums.last_updated), 'Pp');
+  userStore.subscribe(userStore => {
+    if (userStore.albums.last_updated) {
+      last_updated = format(new Date(userStore.albums.last_updated), 'Pp');
+    }
   });
+
+  // onMount(async () => {
+  //   last_updated = format(new Date($userStore.albums.last_updated), 'Pp');
+  // });
 
 
   const handleClick = async () => {
@@ -72,9 +78,13 @@
   <title>Albums</title>
 </svelte:head>
 
-<h1>Saved Albums</h1>
-<div>Last Updated: {last_updated}</div>
-<button on:click={handleClick} {disabled}>Sync saved albums {#if numAlbums !== null} ({numAlbums}) {/if}</button>
+<h1 class="text-2xl">Saved Albums</h1>
+
+{#if last_updated} <div>Last Updated: {last_updated}</div> {/if}
+
+<button class="bg-green-800 p-2 text-green-300" on:click={handleClick} {disabled}>
+  Sync saved albums {#if numAlbums !== null} ({numAlbums}) {/if}
+</button>
 <!-- {#if downloadBlobUrl}
   <a download="saved-albums.json" href={downloadBlobUrl}>Download albums JSON</a>
 {/if} -->

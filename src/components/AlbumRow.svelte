@@ -1,15 +1,14 @@
 <script>
   import { format, parseISO } from 'date-fns';
-  export let albumData;
+  export let album;
 
   // Formatted like: 01/01/2020 5:00 PM
-  let saved_date = format(parseISO(albumData.added_at), 'P');
-  let release_date = format(parseISO(albumData.album.release_date), 'P');
-
-  let artists = '';
+  // let saved_date = format(parseISO(album.added_at), 'P');
+  // let release_date = format(parseISO(album.release_date), 'P');
 
   // Build artists string if album has more than 1 artist.
-  albumData.album.artists.forEach((artist, index) => {
+  let artists = '';
+  album.artists.forEach((artist, index) => {
     if (index !== 0) {
       artists += ', ';
     }
@@ -20,14 +19,18 @@
 
 <style lang="postcss">
   td {
-    @apply border border-green-700;
+    @apply border border-green-500;
     padding: 6px 10px;
   }
 </style>
 
 <tr>
-  <td>{albumData.album.name}</td>
-  <td>{artists}</td>
-  <td>{release_date}</td>
-  <td>{saved_date}</td>
+  <td>{album.name}</td>
+  <td>
+    {#each album.artists as artist, i}
+      {artist.name}{#if album.artists.length !== i + 1}{', '}{/if}
+    {/each}
+  </td>
+  <td>{format(parseISO(album.added_at), 'P')}</td>
+  <td>{format(parseISO(album.release_date), 'P')}</td>
 </tr>
