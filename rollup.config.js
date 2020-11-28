@@ -6,11 +6,7 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config, { server } from 'sapper/config/rollup.js';
 import pkg from './package.json';
-
 const { preprocess } = require('./svelte.config');
-
-// import sveltePreprocess from 'svelte-preprocess';
-// import tailwindcss from "tailwindcss";
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -23,8 +19,6 @@ const onwarn = (warning, onwarn) =>
 
 let serverOutput = config.server.output();
 serverOutput.exports = 'default';
-
-
 
 export default {
   client: {

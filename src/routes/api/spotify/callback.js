@@ -9,20 +9,23 @@ export async function get(req, res, next) {
   // after checking the state parameter
   let authCode = req.query.code || null;
   let authState = req.query.state || null;
-  // let storedAuthState = req.cookies ? req.cookies[authStateKey] : null;
   let storedAuthState = cookieHelper.getAuthState() ? cookieHelper.getAuthState() : null;
 
   if (authState === null || authState !== storedAuthState) {
     console.log('state mismatch');
+    let protocol = 'http://';
+    let url = req.headers['host'];
 
-    let protocol = req.headers['x-forwarded-proto'];
-    let url = req.headers['x-forwarded-host'];
 
-    res.redirect(protocol + '://' + url + '/#' + qs.stringify({
-      error: 'state_mismatch'
-    }));
+    res.writeHead(302, {
+      'Content-Type': 'text/html',
+      Location: protocol + url + '/#' + qs.stringify({
+        error: 'state_mismatch'
+      })
+    });
 
-    return;
+    res.end();
+    return; //Need this to stop it from continuing after if.
   }
 
   // Delete state cookie after correctly matching.
@@ -50,10 +53,6 @@ export async function get(req, res, next) {
 
   let protocol = 'http://';
   let url = req.headers['host'];
-
-  // Vercel:
-  // let protocol = req.headers['x-forwarded-proto'];
-  // let url = req.headers['x-forwarded-host'];
 
   res.writeHead(302, {
     Location: protocol + url,

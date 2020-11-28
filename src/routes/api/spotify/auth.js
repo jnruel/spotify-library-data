@@ -4,9 +4,7 @@ const qs = require('qs');
 const spotifyAuthScopes = [
   'playlist-read-collaborative',
   'playlist-read-private',
-  'user-library-read',
-  'user-top-read',
-  'user-read-recently-played'
+  'user-library-read'
 ];
 
 const spotifyAuthEndpoint = 'https://accounts.spotify.com/authorize'
