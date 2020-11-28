@@ -1,7 +1,13 @@
 {
   "name": "spotify-library-data",
-  "description": "Export and visualize your Spotify library data",
-  "version": "0.0.1",
+  "description": "View and export your Spotify library data",
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnruel/spotify-library-data.git"
+  },
+  "author": "Joe Ruel",
+  "license": "ISC",
   "scripts": {
     "dev": "sapper dev",
     "build": "npm run build:tailwind && sapper export",
